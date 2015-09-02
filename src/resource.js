@@ -1,12 +1,8 @@
 var res = {
-    HelloWorld_png : "res/HelloWorld.png",
-    CloseNormal_png : "res/CloseNormal.png",
-    CloseSelected_png : "res/CloseSelected.png",
-    flare_jpg: "res/flare.jpg",
-    loading_png: "res/loading.png",
+    background_png: "res/bg.png",
     menu_png: "res/menu.png",
-    textureTransparentPack_png: "res/textureTransparentPack.png",
-    textureTransparentPack_plist: "res/textureTransparentPack.plist"
+    backArrow_png: "res/backArrow.png",
+    bombMenu_png: "res/bombMenu.png"
 };
 
 var g_resources = [];

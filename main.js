@@ -47,9 +47,15 @@
  *
  */
 
+var MINES;
+
 cc.game.onStart = function(){
+
     if(!cc.sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it
         document.body.removeChild(document.getElementById("cocosLoading"));
+
+    MINES = minesInit();
+    //console.log(MINES.winSize.height);
 
     // Pass true to enable retina display, disabled by default to improve performance
     cc.view.enableRetina(false);
@@ -61,7 +67,7 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new HelloWorldScene());
+        cc.director.runScene(new MenuScene());
     }, this);
 };
 cc.game.run();
