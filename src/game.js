@@ -31,22 +31,13 @@ var GameLayer = cc.Layer.extend({
             menuBackArrow.setPosition(40, winSize.height - 50);
             this.addChild(menuBackArrow);
 
-            var tile = cc.Sprite.create("#exploded.png");
-            //tile.setAnchorPoint(0, 0);
-            //tile.setColor(255, 0, 255);
-            //tile.setBackground(255, 0, 255);
+            var n = 8 * 8;
+            for (var i = 0; i < n; i++) {
 
-            tile.setPosition(winSize.width / 2 - 65, winSize.height / 2 + 30);
-            this.addChild(tile, 10, 1);
+                var tile = new Tile(this, "#exploded.png", i);
 
-            console.log(tile.getPosition());
-            tilePos = tile.convertToWorldSpace(this.getPosition());
-            console.log(menuItemBackArrow.convertToWorldSpace(menuItemBackArrow.getPosition()));
-            //console.log(tile.getTextureRect().size.height);
+            }
 
-            var dn = new cc.DrawNode();
-            this.addChild(dn);
-            dn.drawRect(cc.p(tilePos.x, tilePos.y), cc.p(tilePos.x + 32, tilePos.y + 32), cc.color(0,255,0,255));
         }
     },
 

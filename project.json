@@ -15,6 +15,8 @@
         "src/menu.js",
         "src/game.js",
         "src/settings.js",
-        "src/config.js"
+        "src/config.js",
+        "src/tile.js",
+        "src/listener.js"
     ]
 }
