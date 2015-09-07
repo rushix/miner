@@ -14,6 +14,7 @@
         "src/menu.js",
         "src/game.js",
         "src/settings.js",
+        "src/lobby.js",
         "src/util/resource.js",
         "src/util/config.js",
         "src/gameplay/tile.js",

@@ -21,6 +21,15 @@ function minesGenerate () {
     }
 }
 
+function game_over (layer) {
+
+    console.log("GAME OVER");
+
+    cc.LoaderScene.preload(g_resources, function () {
+        cc.director.runScene(new LobbyScene());
+    }, layer);
+}
+
 function buildField (layer) {
 
     var x   = 0;
@@ -43,10 +52,23 @@ function buildField (layer) {
         MINES.GAME_FIELD[x][y] = new Tile(layer, res.transparent_png, iterator, MINES.TILE_STATE.EMPTY_HIDDEN);
     }
 
+    // FIXME
     for (iterator = 0; iterator < MINES.MINES_COUNT; iterator++) {
 
         minesGenerate();
     }
+
+    // FIXME
+    for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
+        for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
+            if (MINES.GAME_FIELD[xIterator][yIterator].seekMinesAround(false) > 0) {
+
+                MINES.GAME_FIELD[xIterator][yIterator].state = MINES.TILE_STATE.NUMBERED_HIDDEN;
+            }
+        }
+    }
+
+    MINES.GAME_STATE_ACTUAL = MINES.GAME_STATE.PLAY;
 
     console.log(MINES.GAME_FIELD);
 }

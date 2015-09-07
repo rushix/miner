@@ -13,6 +13,9 @@ function minesInit () {
         OVER: 2
     };
 
+    //actual game state
+    mines.GAME_STATE_ACTUAL = mines.GAME_STATE.HOME;
+
     //tile states
     mines.TILE_STATE = {
         EMPTY_HIDDEN:       0,

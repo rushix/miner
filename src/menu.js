@@ -17,6 +17,8 @@ var MenuLayer = cc.Layer.extend({
             new MenuBombSprite(this, winSize);
             new MenuSprite(this, winSize);
 
+            MINES.GAME_STATE_ACTUAL = MINES.GAME_STATE.HOME;
+
         }
 
     },
