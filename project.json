@@ -18,6 +18,7 @@
         "src/util/config.js",
         "src/gameplay/tile.js",
         "src/gameplay/listener.js",
+        "src/gameplay/gameplay.js",
         "src/sprites/background.js",
         "src/sprites/back_arrow.js",
         "src/sprites/menu_bomb.js",

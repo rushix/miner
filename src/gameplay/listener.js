@@ -14,8 +14,7 @@ var Listener = function () {
             if (cc.rectContainsPoint(targetRectangle, location)) {
                 console.log("Tile touched: x=" + target.coords.x + "; y=" + target.coords.y + ";");
 
-                target.initWithSpriteFrameName((Math.floor(Math.random() * (9 - 1)) + 1) + "mines.png");
-                target.setAnchorPoint(0, 0);
+                MINES.GAME_FIELD[target.coords.x][target.coords.y].click();
             }
         }
     });

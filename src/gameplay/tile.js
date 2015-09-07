@@ -2,14 +2,15 @@
  * Created by deremin on 04.09.15.
  */
 
-var Tile = function (layer, spriteFile, iteration) {
+var Tile = function (layer, spriteFile, iteration, state) {
 
-    this.sprite = null;
+    this.sprite     = null;
     this.background = null;
-    this.layer = layer;
+    this.layer      = layer;
 
-    this.iteration = iteration;
-    this.coords = {
+    this.state      = state;
+    this.iteration  = iteration;
+    this.coords     = {
         x: Math.floor(iteration / MINES.N),
         y: Math.floor(iteration % MINES.N)
     };
@@ -48,8 +49,14 @@ Tile.prototype.init = function () {
         cc.p(tilePos.x, tilePos.y),
         cc.p(tilePos.x + MINES.TEXTURE_DIMENSION, tilePos.y + MINES.TEXTURE_DIMENSION),
 
-        cc.color(0,255,0,255)
+        cc.color(0xFF,0x85,0x1B,255)
     );
     this.layer.addChild(this.background);
 
+}
+
+Tile.prototype.click = function () {
+
+    this.sprite.initWithSpriteFrameName((Math.floor(Math.random() * (9 - 1)) + 1) + "mines.png");
+    this.sprite.setAnchorPoint(0, 0);
 }

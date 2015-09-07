@@ -30,13 +30,7 @@ var GameLayer = cc.Layer.extend({
             MINES.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = winSize.width - winSize.width / 2 - MINES.N * MINES.TEXTURE_DIMENSION / 2;
             MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET = winSize.height - MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA;
 
-
-            //var n = 8 * 8;
-            for (var i = 0; i < nn; i++) {
-
-                var tile = new Tile(this, "#exploded.png", i);
-
-            }
+            buildField(this);
 
         }
     },
