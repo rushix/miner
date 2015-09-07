@@ -11,12 +11,16 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
-        "src/resource.js",
         "src/menu.js",
         "src/game.js",
         "src/settings.js",
-        "src/config.js",
-        "src/tile.js",
-        "src/listener.js"
+        "src/util/resource.js",
+        "src/util/config.js",
+        "src/gameplay/tile.js",
+        "src/gameplay/listener.js",
+        "src/sprites/background.js",
+        "src/sprites/back_arrow.js",
+        "src/sprites/menu_bomb.js",
+        "src/sprites/menu.js"
     ]
 }

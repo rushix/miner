@@ -1,5 +1,5 @@
 var res = {
-    background_png: "res/bg.png",
+    background_png: "res/background.png",
     menu_png: "res/menu.png",
     backArrow_png: "res/backArrow.png",
     bombMenu_png: "res/bombMenu.png",

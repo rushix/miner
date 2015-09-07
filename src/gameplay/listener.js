@@ -12,7 +12,7 @@ var Listener = function () {
             var targetSize = target.getContentSize();
             var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
             if (cc.rectContainsPoint(targetRectangle, location)) {
-                console.log("I picked a tile!! x=" + target.coords.x + "; y=" + target.coords.y + ";");
+                console.log("Tile touched: x=" + target.coords.x + "; y=" + target.coords.y + ";");
 
                 target.initWithSpriteFrameName((Math.floor(Math.random() * (9 - 1)) + 1) + "mines.png");
                 target.setAnchorPoint(0, 0);

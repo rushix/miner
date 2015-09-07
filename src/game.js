@@ -19,20 +19,20 @@ var GameLayer = cc.Layer.extend({
             this.addChild(this.spriteSheet);
 
             var winSize = cc.director.getWinSize();
-            var sp = cc.Sprite.create(res.background_png);
-            sp.setAnchorPoint(0, 0);
-            this.addChild(sp, 0, 1);
 
-            var menuItemBackArrow = new cc.MenuItemSprite(
-                new cc.Sprite(res.backArrow_png),
-                new cc.Sprite(res.backArrow_png),
-                this.onBackArrow, this);
-            var menuBackArrow = new cc.Menu(menuItemBackArrow);
-            menuBackArrow.setPosition(40, winSize.height - 50);
-            this.addChild(menuBackArrow);
+            new BackgroundSprite(this);
+            new BackArrowSprite(this, winSize);
 
-            var n = 8 * 8;
-            for (var i = 0; i < n; i++) {
+            MINES.N = 10;
+            var nn = MINES.N * MINES.N;
+
+            MINES.MINES_COUNT = Math.floor(nn / MINES.MINES_RATIO);
+            MINES.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = winSize.width - winSize.width / 2 - MINES.N * MINES.TEXTURE_DIMENSION / 2;
+            MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET = winSize.height - MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA;
+
+
+            //var n = 8 * 8;
+            for (var i = 0; i < nn; i++) {
 
                 var tile = new Tile(this, "#exploded.png", i);
 
