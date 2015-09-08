@@ -23,13 +23,33 @@ function minesGenerate () {
     }
 }
 
-function game_over (layer) {
+function game_over (layer, result) {
 
-    console.log("GAME OVER");
+    console.log("GAME OVER (" + result + ")");
 
     cc.LoaderScene.preload(g_resources, function () {
         cc.director.runScene(new LobbyScene());
     }, layer);
+}
+
+function check_end_game () {
+
+    var opened_tiles = 0;
+    var goal = MINES.N * MINES.N - MINES.MINES_COUNT;
+
+    for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
+        for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
+            if (
+                MINES.GAME_FIELD[xIterator][yIterator].state == MINES.TILE_STATE.EMPTY_SHOWN ||
+                MINES.GAME_FIELD[xIterator][yIterator].state == MINES.TILE_STATE.NUMBERED_SHOWN
+            ) {
+
+                opened_tiles++;
+            }
+        }
+    }
+
+    return (opened_tiles == goal);
 }
 
 function buildField (layer) {

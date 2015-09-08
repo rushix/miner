@@ -23,7 +23,7 @@ var GameLayer = cc.Layer.extend({
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
 
-            MINES.N = 10;
+            MINES.N = 5;
             var nn = MINES.N * MINES.N;
 
             MINES.MINES_COUNT = Math.floor(nn / MINES.MINES_RATIO);

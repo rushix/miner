@@ -125,7 +125,7 @@ Tile.prototype.click = function () {
         case MINES.TILE_STATE.BOMB:
 
             MINES.GAME_STATE_ACTUAL = MINES.GAME_STATE.OVER;
-            game_over(this.layer);
+            game_over(this.layer, "lose");
 
             break;
 
@@ -134,6 +134,11 @@ Tile.prototype.click = function () {
     }
 
     this.sprite.setAnchorPoint(0, 0);
+
+    if (check_end_game()) {
+
+        game_over(this.layer, "win");
+    }
 };
 
 Tile.prototype.right_click = function () {
