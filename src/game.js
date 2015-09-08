@@ -32,6 +32,7 @@ var GameLayer = cc.Layer.extend({
 
             buildField(this);
 
+            console.log(MINES.MINES_COUNT);
         }
     },
 

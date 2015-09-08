@@ -12,10 +12,12 @@ function minesGenerate () {
     var x = randBetween(0, MINES.N - 1);
     var y = randBetween(0, MINES.N - 1);
 
-    if (MINES.GAME_FIELD[x][y].state != MINES.TILE_STATE.EMPTY_HIDDEN) {
+    if (MINES.GAME_FIELD[x][y].state == MINES.TILE_STATE.BOMB) {
 
         minesGenerate();
     } else {
+
+        console.log("x= " + x + "; y= " + y + ";");
 
         MINES.GAME_FIELD[x][y].state = MINES.TILE_STATE.BOMB;
     }
@@ -61,7 +63,10 @@ function buildField (layer) {
     // FIXME
     for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
         for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
-            if (MINES.GAME_FIELD[xIterator][yIterator].seekMinesAround(false) > 0) {
+            if (
+                MINES.GAME_FIELD[xIterator][yIterator].seekMinesAround(false) > 0 &&
+                MINES.GAME_FIELD[xIterator][yIterator].state != MINES.TILE_STATE.BOMB
+            ) {
 
                 MINES.GAME_FIELD[xIterator][yIterator].state = MINES.TILE_STATE.NUMBERED_HIDDEN;
             }

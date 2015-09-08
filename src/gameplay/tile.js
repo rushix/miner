@@ -21,7 +21,7 @@ var Tile = function (layer, spriteFile, iteration, state) {
 
     this.init();
 
-}
+};
 
 
 Tile.prototype.init = function () {
@@ -46,7 +46,7 @@ Tile.prototype.init = function () {
 
     this.setTileBackground(false);
 
-}
+};
 
 Tile.prototype.setTileBackground = function (clicked) {
 
@@ -61,33 +61,34 @@ Tile.prototype.setTileBackground = function (clicked) {
 
     );
     this.layer.addChild(this.background);
-}
+};
 
 Tile.prototype.seekMinesAround = function (invokeClick) {
 
     var xDeltas = [-1, 0, 1];
     var yDeltas = [-1, 0, 1];
 
-    for (var xDelta = 0; xDelta < xDeltas.length; xDelta++) {
-        for (var yDelta = 0; yDelta < yDeltas.length; yDelta++) {
+    var examX = null;
+    var examY = null;
+
+    for (var xIterator = 0; xIterator < xDeltas.length; xIterator++) {
+        for (var yIterator = 0; yIterator < yDeltas.length; yIterator++) {
 
             //except "self-bomb"
-            if (xDelta == 0 && yDelta == 0) {
+            if (xDeltas[xIterator] == 0 && yDeltas[yIterator] == 0) {
                 continue;
             }
 
-            //examining field frames
-            if (
-                this.coords.x + xDelta >= 0 &&
-                this.coords.y + yDelta >= 0 &&
-                this.coords.x + xDelta < MINES.N &&
-                this.coords.y + yDelta < MINES.N
-            ) {
+            examX = this.coords.x + xDeltas[xIterator];
+            examY = this.coords.y + yDeltas[yIterator];
 
-                if (MINES.GAME_FIELD[this.coords.x + xDelta][this.coords.y + yDelta].state != MINES.TILE_STATE.BOMB) {
+            //examining field frames
+            if (examX >= 0 && examY >= 0 && examX < MINES.N && examY < MINES.N) {
+
+                if (MINES.GAME_FIELD[examX][examY].state != MINES.TILE_STATE.BOMB) {
 
                     if (invokeClick == true) {
-                        MINES.GAME_FIELD[this.coords.x + xDelta][this.coords.y + yDelta].click();
+                        MINES.GAME_FIELD[examX][examY].click();
                     }
                 } else {
 
@@ -98,11 +99,9 @@ Tile.prototype.seekMinesAround = function (invokeClick) {
     }
 
     return this.mines_around;
-}
+};
 
 Tile.prototype.click = function () {
-
-    var mines_around = 0;
 
     switch (this.state) {
 
@@ -134,6 +133,58 @@ Tile.prototype.click = function () {
 
     }
 
-    //this.sprite.initWithSpriteFrameName((Math.floor(Math.random() * (9 - 1)) + 1) + "mines.png");
     this.sprite.setAnchorPoint(0, 0);
-}
+};
+
+Tile.prototype.right_click = function () {
+
+    switch (this.state) {
+
+        case MINES.TILE_STATE.EMPTY_HIDDEN:
+
+            this.state = MINES.TILE_STATE.FLAGGED_HIDDEN;
+            this.sprite.initWithSpriteFrameName("flag.png");
+
+            break;
+
+        case MINES.TILE_STATE.BOMB:
+
+            this.state = MINES.TILE_STATE.FLAGGED_BOMB;
+            this.sprite.initWithSpriteFrameName("flag.png");
+
+            break;
+
+        case MINES.TILE_STATE.NUMBERED_HIDDEN:
+
+            this.state = MINES.TILE_STATE.FLAGGED_FALSE_BOMB;
+            this.sprite.initWithSpriteFrameName("flag.png");
+
+            break;
+
+        case MINES.TILE_STATE.FLAGGED_HIDDEN:
+
+            this.state = MINES.TILE_STATE.EMPTY_HIDDEN;
+            this.sprite.initWithImageFile(res.transparent_png);
+
+            break;
+
+        case MINES.TILE_STATE.FLAGGED_BOMB:
+
+            this.state = MINES.TILE_STATE.BOMB;
+            this.sprite.initWithImageFile(res.transparent_png);
+
+            break;
+
+        case MINES.TILE_STATE.FLAGGED_FALSE_BOMB:
+
+            this.state = MINES.TILE_STATE.NUMBERED_HIDDEN;
+            this.sprite.initWithImageFile(res.transparent_png);
+
+            break;
+
+        default:
+
+    }
+
+    this.sprite.setAnchorPoint(0, 0);
+};

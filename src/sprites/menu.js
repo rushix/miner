@@ -91,4 +91,4 @@ var MenuSprite = function (layer, winSize) {
     );
     layer.schedule(layer.update, 0.1);
 
-}
+};
