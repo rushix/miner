@@ -74,7 +74,7 @@ Tile.prototype.seekMinesAround = function (invokeClick) {
     for (var xIterator = 0; xIterator < xDeltas.length; xIterator++) {
         for (var yIterator = 0; yIterator < yDeltas.length; yIterator++) {
 
-            //except "self-bomb"
+            // except "self-bomb"
             if (xDeltas[xIterator] == 0 && yDeltas[yIterator] == 0) {
                 continue;
             }
@@ -82,13 +82,15 @@ Tile.prototype.seekMinesAround = function (invokeClick) {
             examX = this.coords.x + xDeltas[xIterator];
             examY = this.coords.y + yDeltas[yIterator];
 
-            //examining field frames
+            // examining field frames
             if (examX >= 0 && examY >= 0 && examX < MINES.N && examY < MINES.N) {
 
-                if (MINES.GAME_FIELD[examX][examY].state != MINES.TILE_STATE.BOMB) {
+                if (MINES.GAME_FIELD.getTile(examX, examY).state != MINES.TILE_STATE.BOMB) {
 
                     if (invokeClick == true) {
-                        MINES.GAME_FIELD[examX][examY].click();
+
+                        // expanding clicks around "empty" tiles
+                        MINES.GAME_FIELD.getTile(examX, examY).click();
                     }
                 } else {
 
@@ -113,6 +115,8 @@ Tile.prototype.click = function () {
 
             this.seekMinesAround(true);
 
+            MINES.GAME_FIELD.opened_tiles_count++;
+
             break;
 
         case MINES.TILE_STATE.NUMBERED_HIDDEN:
@@ -120,12 +124,14 @@ Tile.prototype.click = function () {
             this.state = MINES.TILE_STATE.NUMBERED_SHOWN;
             this.sprite.initWithSpriteFrameName(this.mines_around + "mines.png");
 
+            MINES.GAME_FIELD.opened_tiles_count++;
+
             break;
 
         case MINES.TILE_STATE.BOMB:
 
             MINES.GAME_STATE_ACTUAL = MINES.GAME_STATE.OVER;
-            game_over(this.layer, "lose");
+            MINES.GAME_FIELD.gameOver("lose");
 
             break;
 
@@ -135,9 +141,9 @@ Tile.prototype.click = function () {
 
     this.sprite.setAnchorPoint(0, 0);
 
-    if (check_end_game()) {
+    if (MINES.GAME_FIELD.checkEndGame()) {
 
-        game_over(this.layer, "win");
+        MINES.GAME_FIELD.gameOver("win");
     }
 };
 

@@ -2,57 +2,66 @@
  * Created by rushi on 07.09.15.
  */
 
-function randBetween (a, b) {
+var GamePlay = function (layer) {
 
-    return Math.floor(Math.random() * (b - a + 1)) + a;
-}
+    this.layer = layer;
+    this.tiles = false;
 
-function minesGenerate () {
+    this.opened_tiles_count = 0;
+
+    //this.buildField();
+};
+
+GamePlay.prototype.getTile = function (x, y) {
+
+    if (this.tiles == false) {
+
+        this.buildField();
+    }
+
+    if (x >= 0 && y >= 0 && x < MINES.N && y < MINES.N) {
+
+        return this.tiles[x][y];
+    } else {
+
+        console.log("Warning: tile's coordinates out of range");
+        return this.tiles[0][0];
+    }
+};
+
+GamePlay.prototype.minesGenerate = function () {
 
     var x = randBetween(0, MINES.N - 1);
     var y = randBetween(0, MINES.N - 1);
 
-    if (MINES.GAME_FIELD[x][y].state == MINES.TILE_STATE.BOMB) {
+    if (this.getTile(x, y).state == MINES.TILE_STATE.BOMB) {
 
-        minesGenerate();
+        this.minesGenerate();
     } else {
 
         console.log("x= " + x + "; y= " + y + ";");
 
-        MINES.GAME_FIELD[x][y].state = MINES.TILE_STATE.BOMB;
+        this.getTile(x, y).state = MINES.TILE_STATE.BOMB;
     }
-}
+};
 
-function game_over (layer, result) {
+GamePlay.prototype.gameOver = function  (result) {
 
     console.log("GAME OVER (" + result + ")");
 
     cc.LoaderScene.preload(g_resources, function () {
         cc.director.runScene(new LobbyScene());
-    }, layer);
-}
+    }, this.layer);
+};
 
-function check_end_game () {
+GamePlay.prototype.checkEndGame = function () {
 
-    var opened_tiles = 0;
     var goal = MINES.N * MINES.N - MINES.MINES_COUNT;
 
-    for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
-        for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
-            if (
-                MINES.GAME_FIELD[xIterator][yIterator].state == MINES.TILE_STATE.EMPTY_SHOWN ||
-                MINES.GAME_FIELD[xIterator][yIterator].state == MINES.TILE_STATE.NUMBERED_SHOWN
-            ) {
+    return (this.opened_tiles_count == goal);
+};
 
-                opened_tiles++;
-            }
-        }
-    }
-
-    return (opened_tiles == goal);
-}
-
-function buildField (layer) {
+GamePlay.prototype.buildField = function () {
 
     var x   = 0;
     var y   = 0;
@@ -63,32 +72,34 @@ function buildField (layer) {
         x = Math.floor(iterator / MINES.N);
         y = Math.floor(iterator % MINES.N);
 
-        if (!(MINES.GAME_FIELD instanceof Array)) {
-            MINES.GAME_FIELD = [];
+        if (!(this.tiles instanceof Array)) {
+            this.tiles = [];
         }
 
-        if (!(MINES.GAME_FIELD[x] instanceof Array)) {
-            MINES.GAME_FIELD[x] = [];
+        if (!(this.tiles[x] instanceof Array)) {
+            this.tiles[x] = [];
         }
 
-        MINES.GAME_FIELD[x][y] = new Tile(layer, res.transparent_png, iterator, MINES.TILE_STATE.EMPTY_HIDDEN);
+        this.tiles[x][y] = new Tile(this.layer, res.transparent_png, iterator, MINES.TILE_STATE.EMPTY_HIDDEN);
     }
 
+    // locating bombs on a field
     // FIXME
     for (iterator = 0; iterator < MINES.MINES_COUNT; iterator++) {
 
-        minesGenerate();
+        this.minesGenerate();
     }
 
+    // locating "numbers" on a field
     // FIXME
     for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
         for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
             if (
-                MINES.GAME_FIELD[xIterator][yIterator].seekMinesAround(false) > 0 &&
-                MINES.GAME_FIELD[xIterator][yIterator].state != MINES.TILE_STATE.BOMB
+                this.tiles[xIterator][yIterator].seekMinesAround(false) > 0 &&
+                this.tiles[xIterator][yIterator].state != MINES.TILE_STATE.BOMB
             ) {
 
-                MINES.GAME_FIELD[xIterator][yIterator].state = MINES.TILE_STATE.NUMBERED_HIDDEN;
+                this.tiles[xIterator][yIterator].state = MINES.TILE_STATE.NUMBERED_HIDDEN;
             }
         }
     }
@@ -96,4 +107,4 @@ function buildField (layer) {
     MINES.GAME_STATE_ACTUAL = MINES.GAME_STATE.PLAY;
 
     console.log(MINES.GAME_FIELD);
-}
+};

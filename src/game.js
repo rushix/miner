@@ -23,15 +23,26 @@ var GameLayer = cc.Layer.extend({
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
 
-            MINES.N = 5;
+            MINES.N = 20;
             var nn = MINES.N * MINES.N;
 
             MINES.MINES_COUNT = Math.floor(nn / MINES.MINES_RATIO);
             MINES.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = winSize.width - winSize.width / 2 - MINES.N * MINES.TEXTURE_DIMENSION / 2;
             MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET = winSize.height - MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA;
 
-            buildField(this);
+            MINES.GAME_FIELD = new GamePlay(this);
 
+            if (MINES.CHECK_LOCAL_STORAGE && MINES.FORCE_NEW_GAME && localStorage.minesField) {
+
+                //try to continue
+                MINES.GAME_FIELD.buildFieldFromLocalStorage();
+            } else {
+
+                //build game field from scratch
+                MINES.GAME_FIELD.buildField();
+            }
+
+            //console.log(MINES.GAME_FIELD);
             console.log(MINES.MINES_COUNT);
         }
     },

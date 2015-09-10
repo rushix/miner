@@ -59,5 +59,11 @@ function minesInit () {
     //horizontal gameplay field offset
     mines.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = 0;
 
+    //check if html5 local storage enabled
+    mines.CHECK_LOCAL_STORAGE = false;
+
+    //continue previous game
+    mines.FORCE_NEW_GAME = true;
+
     return mines;
 }

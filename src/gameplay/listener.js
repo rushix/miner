@@ -25,13 +25,13 @@ var Listener = function () {
 
                     case right_button_code:
 
-                        MINES.GAME_FIELD[target.coords.x][target.coords.y].right_click();
+                        MINES.GAME_FIELD.getTile(target.coords.x, target.coords.y).right_click();
                         break;
 
                     case left_button_code:
                     default:
 
-                        MINES.GAME_FIELD[target.coords.x][target.coords.y].click();
+                        MINES.GAME_FIELD.getTile(target.coords.x, target.coords.y).click();
 
                 }
             }
