@@ -139,6 +139,8 @@ Tile.prototype.click = function () {
 
     }
 
+    MINES.TILE_STATES[this.coords.x][this.coords.y].state = this.state;
+
     this.sprite.setAnchorPoint(0, 0);
 
     if (MINES.GAME_FIELD.checkEndGame()) {
@@ -196,6 +198,8 @@ Tile.prototype.right_click = function () {
         default:
 
     }
+
+    MINES.TILE_STATES[this.coords.x][this.coords.y].state = this.state;
 
     this.sprite.setAnchorPoint(0, 0);
 };

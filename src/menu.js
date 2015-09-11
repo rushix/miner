@@ -24,11 +24,8 @@ var MenuLayer = cc.Layer.extend({
     },
 
     onNewGame:function () {
-
-        if (MINES.CHECK_LOCAL_STORAGE) {
-
-            MINES.FORCE_NEW_GAME = true;
-        }
+        //starting new game
+        deleteGameState();
 
         cc.LoaderScene.preload(g_resources, function () {
             cc.director.runScene(new GameScene());

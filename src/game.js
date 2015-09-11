@@ -23,27 +23,37 @@ var GameLayer = cc.Layer.extend({
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
 
-            MINES.N = 20;
-            var nn = MINES.N * MINES.N;
 
-            MINES.MINES_COUNT = Math.floor(nn / MINES.MINES_RATIO);
-            MINES.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = winSize.width - winSize.width / 2 - MINES.N * MINES.TEXTURE_DIMENSION / 2;
-            MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET = winSize.height - MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA;
+
+
+
 
             MINES.GAME_FIELD = new GamePlay(this);
 
-            if (MINES.CHECK_LOCAL_STORAGE && MINES.FORCE_NEW_GAME && localStorage.minesField) {
+            console.log(MINES.GAME_FIELD);
 
-                //try to continue
-                MINES.GAME_FIELD.buildFieldFromLocalStorage();
+            try {
+                //try to continue the game
+                if (checkGameStateSaved()) {
+                    loadGameState();
+                }
+
+            } catch (error) {
+                console.log("Excepition throwed while game loading: " + error);
+            }
+
+            MINES.MINES_COUNT = Math.floor(MINES.N * MINES.N / MINES.MINES_RATIO);
+            MINES.GAMEPLAY_FIELD_HORIZONTAL_OFFSET = winSize.width - winSize.width / 2 - MINES.N * MINES.TEXTURE_DIMENSION / 2;
+            MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET = winSize.height - MINES.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA;
+
+            if (checkGameStateSaved()) {
+                MINES.GAME_FIELD.buildFieldFromSavedState();
             } else {
-
-                //build game field from scratch
+                //start new game
                 MINES.GAME_FIELD.buildField();
             }
 
-            //console.log(MINES.GAME_FIELD);
-            console.log(MINES.MINES_COUNT);
+            console.log("mines count: " + MINES.MINES_COUNT);
         }
     },
 

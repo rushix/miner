@@ -34,6 +34,8 @@ var Listener = function () {
                         MINES.GAME_FIELD.getTile(target.coords.x, target.coords.y).click();
 
                 }
+
+                saveGameState();
             }
         }
     });

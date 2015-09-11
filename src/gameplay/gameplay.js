@@ -12,6 +12,12 @@ var GamePlay = function (layer) {
     //this.buildField();
 };
 
+GamePlay.prototype.getStates = function () {
+
+    var states = [];
+
+}
+
 GamePlay.prototype.getTile = function (x, y) {
 
     if (this.tiles == false) {
@@ -25,6 +31,7 @@ GamePlay.prototype.getTile = function (x, y) {
     } else {
 
         console.log("Warning: tile's coordinates out of range");
+        throw new RangeError("tile's coordinates out of range");
         return this.tiles[0][0];
     }
 };
@@ -42,6 +49,10 @@ GamePlay.prototype.minesGenerate = function () {
         console.log("x= " + x + "; y= " + y + ";");
 
         this.getTile(x, y).state = MINES.TILE_STATE.BOMB;
+        MINES.TILE_STATES[x][y] = {
+            state:          this.getTile(x, y).state,
+            mines_around:   0
+        };
     }
 };
 
@@ -61,6 +72,78 @@ GamePlay.prototype.checkEndGame = function () {
     return (this.opened_tiles_count == goal);
 };
 
+GamePlay.prototype.buildFieldFromSavedState = function () {
+
+    for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
+        for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
+
+            this.buildField();
+
+            /*if (!(this.tiles instanceof Array)) {
+                this.tiles = [];
+                MINES.TILE_STATES = [];
+            }
+
+            if (!(this.tiles[xIterator] instanceof Array)) {
+                this.tiles[xIterator] = [];
+                MINES.TILE_STATES[xIterator] = [];
+            }
+
+            this.tiles[xIterator][yIterator] = new Tile(
+                this.layer,
+                res.transparent_png,
+                xIterator * MINES.N + yIterator,
+                this.getTile(xIterator, yIterator).state
+            );*/
+
+            //save load
+            this.getTile(xIterator, yIterator).state = MINES.TILE_STATES[xIterator][yIterator].state;
+            this.getTile(xIterator, yIterator).mines_around = MINES.TILE_STATES[xIterator][yIterator].mines_around;
+
+            //tiles visual interpretation
+            switch (this.getTile(xIterator, yIterator).state) {
+
+                case MINES.TILE_STATE.EMPTY_HIDDEN:
+                case MINES.TILE_STATE.NUMBERED_HIDDEN:
+                case MINES.TILE_STATE.BOMB:
+
+                    this.getTile(xIterator, yIterator).sprite.initWithImageFile(res.transparent_png);
+                    this.getTile(xIterator, yIterator).setTileBackground(false);
+                    break;
+                case MINES.TILE_STATE.EMPTY_SHOWN:
+
+                    this.getTile(xIterator, yIterator).sprite.initWithImageFile(res.transparent_png);
+                    this.getTile(xIterator, yIterator).setTileBackground(true);
+                    break;
+
+                case MINES.TILE_STATE.NUMBERED_SHOWN:
+
+                    this.getTile(xIterator, yIterator).sprite.initWithSpriteFrameName(
+                        this.getTile(xIterator, yIterator).mines_around +
+                        "mines.png"
+                    );
+                    this.getTile(xIterator, yIterator).setTileBackground(true);
+                    break;
+
+                case MINES.TILE_STATE.FLAGGED_HIDDEN:
+                case MINES.TILE_STATE.FLAGGED_FALSE_BOMB:
+                case MINES.TILE_STATE.FLAGGED_BOMB:
+
+                    this.getTile(xIterator, yIterator).sprite.initWithSpriteFrameName(
+                        this.getTile(xIterator, yIterator).mines_around +
+                        "mines.png"
+                    );
+                    this.getTile(xIterator, yIterator).setTileBackground(false);
+                    break;
+
+                default:
+            }
+
+            this.getTile(xIterator, yIterator).sprite.setAnchorPoint(0, 0);
+        }
+    }
+};
+
 GamePlay.prototype.buildField = function () {
 
     var x   = 0;
@@ -74,13 +157,20 @@ GamePlay.prototype.buildField = function () {
 
         if (!(this.tiles instanceof Array)) {
             this.tiles = [];
+            MINES.TILE_STATES = [];
         }
 
         if (!(this.tiles[x] instanceof Array)) {
             this.tiles[x] = [];
+            MINES.TILE_STATES[x] = [];
         }
 
+        //initiation of field with the empty tiles
         this.tiles[x][y] = new Tile(this.layer, res.transparent_png, iterator, MINES.TILE_STATE.EMPTY_HIDDEN);
+        MINES.TILE_STATES[x][y] = {
+            state:          this.getTile(x, y).state,
+            mines_around:   0
+        };
     }
 
     // locating bombs on a field
@@ -100,6 +190,11 @@ GamePlay.prototype.buildField = function () {
             ) {
 
                 this.tiles[xIterator][yIterator].state = MINES.TILE_STATE.NUMBERED_HIDDEN;
+
+                MINES.TILE_STATES[xIterator][yIterator] = {
+                    state:          this.getTile(xIterator, yIterator).state,
+                    mines_around:   this.getTile(xIterator, yIterator).mines_around
+                };
             }
         }
     }

@@ -30,7 +30,7 @@ function minesInit () {
     };
 
     //game field dimension
-    mines.N = 0;
+    mines.N = 10;
 
     //mines count
     mines.MINES_COUNT = 0;
@@ -50,6 +50,9 @@ function minesInit () {
     //empty game field init
     mines.GAME_FIELD = false;
 
+    //game states matrix
+    mines.TILE_STATES = false;
+
     //vertical gameplay field offset delta
     mines.GAMEPLAY_FIELD_VERTICAL_OFFSET_DELTA = 170;
 
@@ -62,7 +65,7 @@ function minesInit () {
     //check if html5 local storage enabled
     mines.CHECK_LOCAL_STORAGE = false;
 
-    //continue previous game
+    //interrupt continue previous game
     mines.FORCE_NEW_GAME = true;
 
     return mines;
