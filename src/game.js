@@ -1,7 +1,3 @@
-/**
- * Created by rushi on 02.09.15.
- */
-
 var GameLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -22,11 +18,6 @@ var GameLayer = cc.Layer.extend({
 
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
-
-
-
-
-
 
             MINES.GAME_FIELD = new GamePlay(this);
 

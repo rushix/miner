@@ -57,6 +57,8 @@ cc.game.onStart = function(){
     MINES = minesInit();
     checkLocalStorage();
 
+    cc.audioEngine.playMusic("res/background.wav", true);
+
     // Pass true to enable retina display, disabled by default to improve performance
     cc.view.enableRetina(false);
     // Adjust viewport meta

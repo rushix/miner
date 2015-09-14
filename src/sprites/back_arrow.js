@@ -1,7 +1,3 @@
-/**
- * Created by rushi on 07.09.15.
- */
-
 var BackArrowSprite = function (layer, winSize) {
 
     this.xOffset        = 40;
@@ -20,5 +16,4 @@ var BackArrowSprite = function (layer, winSize) {
     );
     layer.addChild(this.menuBackArrow);
 
-    //return this;
 };

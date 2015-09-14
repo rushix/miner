@@ -1,7 +1,3 @@
-/**
- * Created by rushi on 07.09.15.
- */
-
 var MenuSprite = function (layer, winSize) {
 
     this.menuItemWidth  = 126;

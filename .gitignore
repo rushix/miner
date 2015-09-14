@@ -1,3 +1,4 @@
 frameworks/cocos2d-x/*
 frameworks/runtime-src/*
+res/gameplay/*
 .idea/*

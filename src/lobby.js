@@ -1,7 +1,3 @@
-/**
- * Created by deremin on 07.09.15.
- */
-    
 var LobbyLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -16,8 +12,29 @@ var LobbyLayer = cc.Layer.extend({
 
             var winSize = cc.director.getWinSize();
 
+            var xOffset        = 150;
+            var yOffsetDelta   = 230;
+
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
+
+            deleteGameState();
+
+            this.label = new cc.LabelTTF("labeltext", "Lobster", 24);
+
+            this.label.setPosition(
+                xOffset, winSize.height - yOffsetDelta
+            );
+
+            var result = (MINES.GAME_STATE.OVER_WIN == MINES.GAME_STATE_ACTUAL) ? "WIN" : "LOSE";
+
+            this.label.setString(
+                "Result: " + result +
+                ";\nResolution: " + MINES.N + "x" + MINES.N +
+                ";\nMines: " + MINES.MINES_COUNT + ";"
+            );
+
+            this.addChild(this.label);
 
         }
     },

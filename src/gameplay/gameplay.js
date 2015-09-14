@@ -1,7 +1,3 @@
-/**
- * Created by rushi on 07.09.15.
- */
-
 var GamePlay = function (layer) {
 
     this.layer = layer;
@@ -9,14 +5,7 @@ var GamePlay = function (layer) {
 
     this.opened_tiles_count = 0;
 
-    //this.buildField();
 };
-
-GamePlay.prototype.getStates = function () {
-
-    var states = [];
-
-}
 
 GamePlay.prototype.getTile = function (x, y) {
 
@@ -60,6 +49,8 @@ GamePlay.prototype.gameOver = function  (result) {
 
     console.log("GAME OVER (" + result + ")");
 
+    MINES.GAME_STATE_ACTUAL = (result == "win") ? MINES.GAME_STATE.OVER_WIN : MINES.GAME_STATE.OVER_LOSE;
+
     cc.LoaderScene.preload(g_resources, function () {
         cc.director.runScene(new LobbyScene());
     }, this.layer);
@@ -77,42 +68,48 @@ GamePlay.prototype.buildFieldFromSavedState = function () {
     for (var xIterator = 0; xIterator < MINES.N; xIterator++) {
         for (var yIterator = 0; yIterator < MINES.N; yIterator++) {
 
-            this.buildField();
 
-            /*if (!(this.tiles instanceof Array)) {
+            if (!(this.tiles instanceof Array)) {
                 this.tiles = [];
-                MINES.TILE_STATES = [];
             }
 
             if (!(this.tiles[xIterator] instanceof Array)) {
                 this.tiles[xIterator] = [];
-                MINES.TILE_STATES[xIterator] = [];
             }
 
             this.tiles[xIterator][yIterator] = new Tile(
                 this.layer,
                 res.transparent_png,
                 xIterator * MINES.N + yIterator,
-                this.getTile(xIterator, yIterator).state
-            );*/
+                MINES.TILE_STATES[xIterator][yIterator].state
+            );
+
+            this.getTile(xIterator, yIterator).sprite.setAnchorPoint(0, 0);
 
             //save load
             this.getTile(xIterator, yIterator).state = MINES.TILE_STATES[xIterator][yIterator].state;
             this.getTile(xIterator, yIterator).mines_around = MINES.TILE_STATES[xIterator][yIterator].mines_around;
 
+
             //tiles visual interpretation
-            switch (this.getTile(xIterator, yIterator).state) {
+            switch (MINES.TILE_STATES[xIterator][yIterator].state) {
 
                 case MINES.TILE_STATE.EMPTY_HIDDEN:
                 case MINES.TILE_STATE.NUMBERED_HIDDEN:
                 case MINES.TILE_STATE.BOMB:
 
-                    this.getTile(xIterator, yIterator).sprite.initWithImageFile(res.transparent_png);
+                    this.getTile(xIterator, yIterator).sprite.initWithFile(
+                        res.transparent_png,
+                        cc.rect(0, 0, MINES.TEXTURE_BASE_DIMENSION, MINES.TEXTURE_BASE_DIMENSION)
+                    );
                     this.getTile(xIterator, yIterator).setTileBackground(false);
                     break;
                 case MINES.TILE_STATE.EMPTY_SHOWN:
 
-                    this.getTile(xIterator, yIterator).sprite.initWithImageFile(res.transparent_png);
+                    this.getTile(xIterator, yIterator).sprite.initWithFile(
+                        res.transparent_png,
+                        cc.rect(0, 0, MINES.TEXTURE_BASE_DIMENSION, MINES.TEXTURE_BASE_DIMENSION)
+                    );
                     this.getTile(xIterator, yIterator).setTileBackground(true);
                     break;
 
@@ -129,10 +126,7 @@ GamePlay.prototype.buildFieldFromSavedState = function () {
                 case MINES.TILE_STATE.FLAGGED_FALSE_BOMB:
                 case MINES.TILE_STATE.FLAGGED_BOMB:
 
-                    this.getTile(xIterator, yIterator).sprite.initWithSpriteFrameName(
-                        this.getTile(xIterator, yIterator).mines_around +
-                        "mines.png"
-                    );
+                    this.getTile(xIterator, yIterator).sprite.initWithSpriteFrameName("flag.png");
                     this.getTile(xIterator, yIterator).setTileBackground(false);
                     break;
 

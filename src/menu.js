@@ -1,4 +1,3 @@
-
 var MenuLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {

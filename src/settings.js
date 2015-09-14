@@ -1,10 +1,6 @@
-/**
- * Created by rushi on 02.09.15.
- */
-
-
 var SettingsLayer = cc.Layer.extend({
     sprite:null,
+    label:null,
     ctor:function () {
 
         this._super();
@@ -20,6 +16,8 @@ var SettingsLayer = cc.Layer.extend({
             new BackgroundSprite(this);
             new BackArrowSprite(this, winSize);
 
+            new TilesSelectorSprite(this, winSize);
+
         }
     },
 
@@ -30,8 +28,25 @@ var SettingsLayer = cc.Layer.extend({
         }, this);
 
         console.log("backArrow clicked");
-    }
+    },
 
+    onLeftArrow:function () {
+
+        if (MINES.N > 5) {
+            MINES.N--;
+            this.label.setString(MINES.N + "x" + MINES.N);
+        }
+
+    },
+
+    onRightArrow:function () {
+
+        if (MINES.N < 20) {
+            MINES.N++;
+            this.label.setString(MINES.N + "x" + MINES.N);
+        }
+
+    }
 
 });
 

@@ -1,7 +1,3 @@
-/**
- * Created by deremin on 04.09.15.
- */
-
 var Tile = function (layer, spriteFile, iteration, state) {
 
     this.sprite         = null;
@@ -123,6 +119,7 @@ Tile.prototype.click = function () {
 
             this.state = MINES.TILE_STATE.NUMBERED_SHOWN;
             this.sprite.initWithSpriteFrameName(this.mines_around + "mines.png");
+            this.setTileBackground(true);
 
             MINES.GAME_FIELD.opened_tiles_count++;
 
@@ -177,21 +174,30 @@ Tile.prototype.right_click = function () {
         case MINES.TILE_STATE.FLAGGED_HIDDEN:
 
             this.state = MINES.TILE_STATE.EMPTY_HIDDEN;
-            this.sprite.initWithImageFile(res.transparent_png);
+            this.sprite.initWithFile(
+                res.transparent_png,
+                cc.rect(0, 0, MINES.TEXTURE_DIMENSION, MINES.TEXTURE_DIMENSION)
+            );
 
             break;
 
         case MINES.TILE_STATE.FLAGGED_BOMB:
 
             this.state = MINES.TILE_STATE.BOMB;
-            this.sprite.initWithImageFile(res.transparent_png);
+            this.sprite.initWithFile(
+                res.transparent_png,
+                cc.rect(0, 0, MINES.TEXTURE_DIMENSION, MINES.TEXTURE_DIMENSION)
+            );
 
             break;
 
         case MINES.TILE_STATE.FLAGGED_FALSE_BOMB:
 
             this.state = MINES.TILE_STATE.NUMBERED_HIDDEN;
-            this.sprite.initWithImageFile(res.transparent_png);
+            this.sprite.initWithFile(
+                res.transparent_png,
+                cc.rect(0, 0, MINES.TEXTURE_DIMENSION, MINES.TEXTURE_DIMENSION)
+            );
 
             break;
 

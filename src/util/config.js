@@ -1,16 +1,13 @@
-/**
- * Created by rushi on 02.09.15.
- */
-
 function minesInit () {
 
     var mines = MINES || {};
 
     //game state
     mines.GAME_STATE = {
-        HOME: 0,
-        PLAY: 1,
-        OVER: 2
+        HOME:       0,
+        PLAY:       1,
+        OVER_WIN:   2,
+        OVER_LOSE:  3
     };
 
     //actual game state

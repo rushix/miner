@@ -23,6 +23,7 @@
         "src/gameplay/gameplay.js",
         "src/sprites/background.js",
         "src/sprites/back_arrow.js",
+        "src/sprites/tiles_selector.js",
         "src/sprites/menu_bomb.js",
         "src/sprites/menu.js"
     ]

@@ -1,7 +1,3 @@
-/**
- * Created by rushi on 07.09.15.
- */
-
 var MenuBombSprite = function (layer, winSize) {
 
     this.width      = 128;
@@ -15,4 +11,4 @@ var MenuBombSprite = function (layer, winSize) {
         winSize.height / 2 + this.yOffset
     );
     layer.addChild(this.bombMenu, 10, 1);
-}
+};

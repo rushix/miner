@@ -1,7 +1,3 @@
-/**
- * Created by deremin on 04.09.15.
- */
-
 var Listener = function () {
 
     var left_button_code    = 0;
@@ -11,6 +7,7 @@ var Listener = function () {
         event: cc.EventListener.MOUSE,
         onMouseUp: function (event) {
             var target = event.getCurrentTarget();
+
             var location = target.convertToNodeSpace(event.getLocation());
             var targetSize = target.getContentSize();
             var targetRectangle = cc.rect(0, 0, targetSize.width, targetSize.height);
@@ -35,6 +32,8 @@ var Listener = function () {
 
                 }
 
+
+                cc.audioEngine.playEffect("res/effect2.wav", false);
                 saveGameState();
             }
         }
